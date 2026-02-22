@@ -38,35 +38,36 @@ def show():
             "labor_per_ton": 800,
             "transport_per_ton": 1200,
             "value_per_ton": 12000, 
-            "type": "Income"
+            "type": "Income",
+            "reason": "Highest market value per ton through carbon-rich soil enhancement."
         },
         "Pellet Manufacturing": {
             "setup_cost": 180000, 
             "labor_per_ton": 600,
             "transport_per_ton": 1000,
             "value_per_ton": 6500, 
-            "type": "Income"
+            "type": "Income",
+            "reason": "Stable demand for industrial fuel and high volume reduction."
         },
         "Compost Making": {
             "setup_cost": 8000, 
             "labor_per_ton": 1000,
             "transport_per_ton": 400,
             "value_per_ton": 3400, 
-            "type": "Income"
+            "type": "Income",
+            "reason": "Low initial investment and excellent project for local organic farming."
         },
         "Direct Incorporation": {
             "setup_cost": 35000, 
             "labor_per_ton": 1200,
             "transport_per_ton": 0, # Done on field
             "value_per_ton": 3200, 
-            "type": "Savings"
+            "type": "Savings",
+            "reason": "Restores soil health directly and eliminates transportation logistics."
         }
     }
 
-    # Best option highlight (beside burning)
-    best_option_name = "Biochar Production" 
-    st.info(f"💡 **{utils.t('Best Alternative')}**: {utils.t('Besides burning,')} **{utils.t(best_option_name)}** {utils.t('is your most profitable path, offering the highest value per ton.')}")
-
+    # ROI & Break-even calculation
     st.subheader(utils.t("💹 ROI & Break-even Scenarios"))
     
     # Calculate data for the table
@@ -102,6 +103,10 @@ def show():
             best_net = annual_net
             best_option = name
 
+    # Best Method Highlight Display
+    if best_option:
+        st.success(f"🏆 **{utils.t('Recommended Strategy')}**: {utils.t(best_option)} — *{utils.t(options_data[best_option]['reason'])}*")
+
     # Professional Tabular View
     st.table(table_data)
 
@@ -127,6 +132,38 @@ def show():
         • **Extreme Sowing Window**: In rare cases with less than 3 days between crops where balers are unavailable, though 'Happy Seeder' is still preferred.\n
         • **Fungal Outbreaks**: To prevent the survival of soil-borne pathogens that unaffected by chemical treatment.
         """))
+
+    st.divider()
+
+    # =========================================================
+    # VIDEO GUIDES (DROPDOWN)
+    # =========================================================
+    st.subheader(utils.t("🎬 Video Guides for Residue Management"))
+
+    @st.dialog(utils.t("▶️ Video Guide"), width="large")
+    def show_video(path, title):
+        import os
+        if os.path.exists(path):
+            st.subheader(utils.t(title))
+            st.video(path)
+        else:
+            st.error(utils.t("Video file not found: ") + path)
+
+    with st.popover(utils.t("📂 Choose a Video Guide")):
+        st.write(utils.t("Click a button below to watch a video tutorial:"))
+        col_v1, col_v2 = st.columns(2)
+        
+        if col_v1.button(utils.t("Biochar"), use_container_width=True):
+            show_video("biochar.mp4", "Biochar Production")
+        
+        if col_v2.button(utils.t("Compost"), use_container_width=True):
+            show_video("compost.mp4", "Compost Making")
+            
+        if col_v1.button(utils.t("Pellet"), use_container_width=True):
+            show_video("pellat.mp4", "Pellet Manufacturing")
+            
+        if col_v2.button(utils.t("Incorporation"), use_container_width=True):
+            show_video("incorporation.mp4", "Direct Incorporation")
 
     st.divider()
 

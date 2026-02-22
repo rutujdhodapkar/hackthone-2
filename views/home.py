@@ -74,7 +74,7 @@ Use the AI Crop Residue Advisor to:
         st.session_state.show_uploader = False
 
     if not st.session_state.show_uploader:
-        if st.button(utils.t("🔍 Auto Detect")):
+        if st.button(utils.t("🔍 Auto Detect"), width="stretch"):
             st.session_state.show_uploader = True
             st.rerun()
     else:
@@ -269,7 +269,7 @@ Use the AI Crop Residue Advisor to:
         st.image(
             "https://raw.github.com/rutujdhodapkar/hackthon-1-subtask/main/unnamed.jpg",
             caption=utils.t("Sustainable farming support"),
-            use_container_width=True
+            width="stretch"
         )
 
     # -------- STRATEGIC REPORTS -------- #

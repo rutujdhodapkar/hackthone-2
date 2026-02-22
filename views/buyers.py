@@ -67,4 +67,4 @@ def show():
     st.subheader(utils.t("🗺️ Visual Search"))
     search_query = f"Crop Residue Buyers near {farmer.get('location', 'India')}"
     maps_url = f"https://www.google.com/maps/search/{search_query.replace(' ', '+')}"
-    st.link_button(utils.t("📍 Search Nearby Buyers on Google Maps"), maps_url, use_container_width=True)
+    st.link_button(utils.t("📍 Search Nearby Buyers on Google Maps"), maps_url, width="stretch")
