@@ -1,5 +1,4 @@
-```markdown
-```
+
 ## 🌾 AI-Powered Crop Residue & Stubble Burning Alternative Advisor
 
 
@@ -16,6 +15,11 @@ Traditional open-field burning is a "quick fix" for farmers that leads to:
 * **Health Crisis:** Severe respiratory issues for rural and urban populations.
 * **Soil Degradation:** Loss of essential nutrients (Nitrogen, Phosphorus, Potassium) and beneficial soil microbes.
 * **Economic Loss:** Farmers miss out on the secondary market value of crop residue.
+
+## User/ Stakeholder
+** Farmer
+** Ngo's/ Organization 
+** agricultural institute 
 
 ## 💡 The Solution
 Our intelligent decision-support platform provides:
@@ -124,6 +128,13 @@ streamlit run app.py
 
 ---
 
+## Limitations
+** Internet connection
+** Geological location
+
+---
+
+
 ## 📜 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
@@ -131,6 +142,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 **Developed By Team AgriIntellect**
+
 
 
 
