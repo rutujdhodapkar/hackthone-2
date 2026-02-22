@@ -1,31 +1,22 @@
-This is a professionally structured `README.md` file tailored for a high-quality GitHub repository or hackathon submission. It expands on your provided details with clear formatting, technical depth, and a clean layout.
-
----
-
-### 📄 Copy and Save as `README.md`
-
 ```markdown
-# 🌾 AI-Powered Crop Residue & Stubble Burning Alternative Advisor
+🌾 AI-Powered Crop Residue & Stubble Burning Alternative Advisor
+```
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://streamlit.io/)
-
-## 📌 Overview
+📌 Overview
 Stubble burning is a critical environmental and agricultural crisis. This project introduces an **AI-powered advisory system** designed to transition farmers from hazardous burning practices to **profitable and sustainable alternatives** like composting, biochar production, and pelletization.
 
 Built with **Streamlit and Python**, the platform bridges the gap between environmental necessity and farmer profitability through data-driven insights and market connectivity.
 
 ---
 
-## 🎯 The Problem
+🎯 The Problem
 Traditional open-field burning is a "quick fix" for farmers that leads to:
 * **Environmental Decay:** Massive release of PM2.5, $CO_2$, and smog.
 * **Health Crisis:** Severe respiratory issues for rural and urban populations.
 * **Soil Degradation:** Loss of essential nutrients (Nitrogen, Phosphorus, Potassium) and beneficial soil microbes.
 * **Economic Loss:** Farmers miss out on the secondary market value of crop residue.
 
-## 💡 The Solution
+💡 The Solution
 Our intelligent decision-support platform provides:
 1.  **AI Recommendations:** Suggests the best use of residue based on crop type and region.
 2.  **Economic Calculator:** Comparative analysis showing the profit of selling vs. the cost of burning.
@@ -34,7 +25,7 @@ Our intelligent decision-support platform provides:
 
 ---
 
-## 🚀 Key Features
+🚀 Key Features
 
 * 🌱 **Alternative Recommender:** Suggests options like Bio-Decomposers, Biochar, or Mulching.
 * 💰 **Economic Analysis:** Calculates break-even points and ROI for equipment/labor.
@@ -45,7 +36,7 @@ Our intelligent decision-support platform provides:
 
 ---
 
-## 🛠️ Technology Stack
+🛠️ Technology Stack
 
 | Layer | Technology |
 | :--- | :--- |
@@ -58,8 +49,8 @@ Our intelligent decision-support platform provides:
 | **Storage** | JSON / SQLite |
 
 ---
-
-## 📂 Project Structure
+```
+📂 Project Structure
 
 ```text
 hackathon/
@@ -138,21 +129,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-**Developed for [Your Hackathon Name/Purpose]**
+**Developed By AgriIntellect**
 
 ```
 
 ---
 
-### 💡 Pro-Tip for your Project:
-If you want to make the "Soil Health" section of your app really pop, you could add a comparison table in your logic:
-
-| Action | Nutrient Impact | Cost | Potential Revenue |
-| :--- | :--- | :--- | :--- |
-| **Burning** | High Loss (N, P, K) | Low (Immediate) | ₹0 |
-| **Selling** | Neutral | Medium (Transport) | ₹2000 - ₹5000/acre |
-| **Bio-Decomposer** | High Gain (Organic Carbon) | Low (Subsidized) | Long-term yield ⬆️ |
-
-**Would you like me to generate the `requirements.txt` file or the `utils.py` logic for the economic calculator?**
 
 ```
