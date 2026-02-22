@@ -26,6 +26,12 @@ st.markdown("""
         background-color: #1B5E20 !important;
         color: white !important;
     }
+    .block-container {
+        padding-top: 2rem !important;
+        padding-bottom: 0rem !important;
+        padding-left: 5rem !important;
+        padding-right: 5rem !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -45,7 +51,8 @@ pages = {
     "Subsidies": "views.subsidies",
     "Buyers": "views.buyers",
     "Sell Residue": "views.sell",
-    "AI Assistant": "views.chat"
+    "AI Assistant": "views.chat",
+    "Voice Model": "views.voice_assistant",
 }
 
 # ---------------- NAVIGATION ---------------- #
@@ -62,18 +69,42 @@ def main():
         st.session_state.lang_code = utils.SUPPORTED_LANGUAGES[selected_lang]
         st.rerun()
 
-    st.sidebar.divider()
-    st.sidebar.link_button(utils.t("Planty agent"), "https://leaf-agent.streamlit.app/", use_container_width=True)
+
+    st.sidebar.link_button(utils.t("Planty agent"), "https://leaf-agent.streamlit.app/", width="stretch")
 
 
 
     # Navbar Buttons
-    cols = st.columns(len(pages))
+    from streamlit_js_eval import streamlit_js_eval
+    screen_width = streamlit_js_eval(js_expressions='window.innerWidth', key='WIDTH', want_output=True)
+    user_agent = streamlit_js_eval(js_expressions='navigator.userAgent', key='UA', want_output=True)
 
-    for i, (page_name, module_path) in enumerate(pages.items()):
-        if cols[i].button(utils.t(page_name), width="stretch", type="primary" if st.session_state.page == page_name else "secondary"):
-            st.session_state.page = page_name
+    # Fallback/Default values
+    if screen_width is None: screen_width = 1000 
+    
+    is_mobile = False
+    if user_agent:
+        mobile_keywords = ["Android", "webOS", "iPhone", "iPad", "iPod", "BlackBerry", "IEMobile", "Opera Mini"]
+        is_mobile = any(keyword in user_agent for keyword in mobile_keywords)
+
+    if screen_width < 800 or is_mobile:
+        # Mobile Dropdown List
+        st.info(f"{utils.t('Mobile View Enabled')}")
+        selected_page = st.selectbox(
+            utils.t("Menu - Choose Page"), 
+            list(pages.keys()), 
+            index=list(pages.keys()).index(st.session_state.page)
+        )
+        if selected_page != st.session_state.page:
+            st.session_state.page = selected_page
             st.rerun()
+    else:
+        # Desktop Navbar Buttons
+        cols = st.columns(len(pages))
+        for i, (page_name, module_path) in enumerate(pages.items()):
+            if cols[i].button(utils.t(page_name), width="stretch", type="primary" if st.session_state.page == page_name else "secondary"):
+                st.session_state.page = page_name
+                st.rerun()
 
     st.divider()
 

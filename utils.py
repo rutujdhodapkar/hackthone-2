@@ -4,8 +4,8 @@ import os
 from sarvamai import SarvamAI
 
 # SARVAM AI CENTRALIZED CONFIGURATION
-SARVAM_API_KEY = "sk_1x6902nv_YD6iYU66jylp0rxDeynkuu6o"
-OPENROUTER_API_KEY = "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"
+SARVAM_API_KEY = "sk_zmlsl303_SMPuT8dJPTlYCakAj45krULM"
+OPENROUTER_API_KEY = "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"
 JSON_FILE = "farmer_data.json"
 CACHE_FILE = "translation_cache.json"
 
@@ -67,8 +67,6 @@ SUPPORTED_LANGUAGES = {
     "Kashmiri": "ks-IN",
     "Konkani": "kok-IN",
     "Maithili": "mai-IN",
-    "Nepali": "ne-IN",
-    "Sanskrit": "sa-IN",
     "Sindhi": "sd-IN",
     "Bodo": "brx-IN",
     "Dogri": "doi-IN",
@@ -159,6 +157,61 @@ def ask_sarvam_ai(prompt, system_prompt="You are a helpful agricultural advisor.
         print(f"Sarvam LLM Error: {e}")
         return None
 
+def ask_oss_ai(prompt, system_prompt="You are a helpful agricultural advisor."):
+    """Helper to call OSS AI via OpenRouter (single turn)."""
+    return ask_oss_chat([
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": prompt}
+    ])
+
+def ask_oss_chat(messages):
+    """Helper to call OSS AI via OpenRouter with full message history."""
+    try:
+        # Switching to Google's Gemma 2 9B as per user request to resolve provider errors.
+        models = [
+            "meta-llama/llama-3.1-8b-instruct:free",
+            "meta-llama/llama-3.3-70b-instruct:free",
+        ]
+        
+        last_error = ""
+        for model in models:
+            try:
+                # IMPORTANT: Ensuring the API key and headers are perfect to avoid 401
+                response = requests.post(
+                    url="https://openrouter.ai/api/v1/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                        "Content-Type": "application/json",
+                        "HTTP-Referer": "https://localhost:8501", 
+                        "X-Title": "Agri AI Advisor",
+                    },
+                    data=json.dumps({
+                        "model": model,
+                        "messages": messages
+                    }),
+                    timeout=15
+                )
+                
+                if response.status_code == 401:
+                    last_error = f"401 Unauthorized: {response.text}"
+                    print(f"OpenRouter 401 for {model}: {response.text}")
+                    continue # Try next model or fail loop
+
+                result = response.json()
+                if 'choices' in result and len(result['choices']) > 0:
+                    return result['choices'][0]['message']['content']
+                else:
+                    last_error = result.get('error', {}).get('message', 'Unknown Error')
+                    print(f"Model {model} failed: {last_error}")
+            except Exception as e:
+                last_error = str(e)
+                print(f"Model {model} exception: {e}")
+        
+        return f"ERROR: {last_error}"
+    except Exception as e:
+        print(f"OSS LLM Exception: {e}")
+        return f"EXCEPTION: {str(e)}"
+
 def t(text):
     """Utility function to translate dynamic text based on current session language."""
     target_lang = st.session_state.get("lang_code", "en-IN")
@@ -169,37 +222,92 @@ def t(text):
 # =========================================================
 
 import base64
+import uuid
+import tempfile
 
 def text_to_speech(text, target_lang_code):
-    """Converts text to speech using Sarvam AI Bulbul model."""
+    """Converts text to speech using Sarvam AI Bulbul:v3 via streaming Requests."""
     try:
-        response = sarvam_client.text_to_speech.convert(
-            text=text,
-            language_code=target_lang_code,
-            model="bulbul:v1",
-            voice="amrit"
-        )
-        if hasattr(response, 'audio_content'):
-            return response.audio_content
-        return None
+        headers = {
+            "api-subscription-key": SARVAM_API_KEY,
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "text": text,
+            "target_language_code": target_lang_code,
+            "speaker": "shubh",
+            "model": "bulbul:v3",
+            "pace": 1.0,
+            "speech_sample_rate": 22050,
+            "output_audio_codec": "mp3",
+            "enable_preprocessing": True
+        }
+        tts_url = "https://api.sarvam.ai/text-to-speech/stream"
+        
+        response = requests.post(tts_url, headers=headers, json=payload)
+        if response.status_code == 200:
+            return response.content
+        else:
+            print(f"TTS API Error: {response.text}")
+            return None
     except Exception as e:
         print(f"TTS Error: {e}")
         return None
 
-def speech_to_text(audio_file, target_lang_code):
-    """Transcribes audio using Sarvam AI Saaras model."""
+def speech_to_text(audio_data, target_lang_code):
+    """Transcribes audio using Sarvam AI Saaras model via Job API."""
     try:
-        response = sarvam_client.speech_to_text.transcribe(
-            file=audio_file,
-            language_code=target_lang_code,
-            model="saaras:v3"
+        # 1. Save buffer to temp file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp:
+            tmp.write(audio_data.getvalue() if hasattr(audio_data, 'getvalue') else audio_data)
+            audio_path = tmp.name
+
+        # 2. Create Job
+        job = sarvam_client.speech_to_text_job.create_job(
+            model="saaras:v3",
+            mode="transcribe",
+            language_code="unknown", 
+            with_diarization=False   
         )
-        if hasattr(response, 'transcript'):
-            return response.transcript
-        elif hasattr(response, 'text'):
-            return response.text
-        elif isinstance(response, dict) and 'transcript' in response:
-            return response['transcript']
+        
+        # 3. Process
+        job.upload_files(file_paths=[audio_path])
+        job.start()
+        job.wait_until_complete()
+        
+        # 4. Results check
+        file_results = job.get_file_results()
+        if file_results['successful']:
+            out_dir = f"./output_{uuid.uuid4().hex}"
+            if not os.path.exists(out_dir):
+                os.makedirs(out_dir)
+                
+            try:
+                job.download_outputs(output_dir=out_dir)
+                files = os.listdir(out_dir)
+                if files:
+                    with open(os.path.join(out_dir, files[0]), "r", encoding="utf-8") as f:
+                        raw_result = f.read()
+                    
+                    # PROPER PARSING: Sarvam results are JSON
+                    try:
+                        res_json = json.loads(raw_result)
+                        transcript = res_json.get("transcript", raw_result)
+                    except:
+                        transcript = raw_result
+                    
+                    import shutil
+                    shutil.rmtree(out_dir, ignore_errors=True)
+                    try: os.unlink(audio_path)
+                    except: pass
+                    return transcript
+            except Exception as e:
+                print(f"STT Error during download/parse: {e}")
+                import shutil
+                shutil.rmtree(out_dir, ignore_errors=True)
+        
+        try: os.unlink(audio_path)
+        except: pass
         return None
     except Exception as e:
         print(f"STT Error: {e}")
