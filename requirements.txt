@@ -1,0 +1,6 @@
+streamlit
+pandas
+requests
+geopy
+streamlit-js-eval
+sarvamai
