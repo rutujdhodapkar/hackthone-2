@@ -17,9 +17,9 @@ Traditional open-field burning is a "quick fix" for farmers that leads to:
 * **Economic Loss:** Farmers miss out on the secondary market value of crop residue.
 
 ## User/ Stakeholder
-** Farmer
-** Ngo's/ Organization 
-** agricultural institute 
+1.  Farmer
+2.  Ngo's/ Organization 
+3.  agricultural institute 
 
 ## 💡 The Solution
 Our intelligent decision-support platform provides:
@@ -129,8 +129,8 @@ streamlit run app.py
 ---
 
 ## Limitations
-** Internet connection
-** Geological location
+1.  Internet connection
+2.  Geological location
 
 ---
 
@@ -142,6 +142,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 **Developed By Team AgriIntellect**
+
 
 
 
