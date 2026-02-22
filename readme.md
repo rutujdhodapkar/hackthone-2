@@ -1,63 +1,53 @@
-
-```markdown
 # 🌾 AI-Powered Crop Residue & Stubble Burning Alternative Advisor
 
+
+::contentReference[oaicite:0]{index=0}
+
+
 ## 📌 Overview
-Stubble burning is a serious environmental, health, and agricultural issue, especially in India. Farmers often burn crop residue due to time constraints, lack of awareness, and limited access to affordable alternatives.
+Stubble burning is a major environmental, health, and agricultural issue. This project presents an **AI-powered advisory system** that helps farmers shift from burning crop residue to **profitable and sustainable alternatives** such as composting, biochar production, pelletization, and residue selling.
 
-This project provides an **AI-powered advisory system** that helps farmers **avoid stubble burning** by recommending **profitable and sustainable alternatives** such as composting, biochar, pelletization, and residue selling.
-
-The system is built using **Streamlit** and integrates **economic analysis, soil health impact, buyer discovery, government subsidies, and voice assistance** to support informed decision-making.
+The platform is built using **Streamlit and Python** and provides **economic analysis, soil health insights, buyer discovery, subsidy awareness, and voice-based assistance** in a farmer-friendly interface.
 
 ---
 
 ## 🎯 Problem Statement
-- Crop residue burning causes severe air pollution (PM2.5, smog)
-- Leads to health hazards and climate change
-- Results in soil nutrient loss
-- Farmers lack real-time guidance and economic clarity
+- Open-field stubble burning causes severe air pollution (PM2.5, smog)
+- Leads to respiratory diseases and climate change
+- Degrades soil nutrients and fertility
+- Farmers lack real-time guidance and market connectivity
 
 ---
 
 ## 💡 Proposed Solution
 An intelligent decision-support platform that:
-- Recommends alternatives to stubble burning
-- Compares profit vs burning
-- Connects farmers with residue buyers
-- Provides government subsidy information
-- Supports voice-based interaction for ease of use
+- Recommends eco-friendly alternatives to stubble burning
+- Compares burning vs alternative profitability
+- Connects farmers with crop residue buyers
+- Provides government subsidy and policy information
+- Supports voice-based and multilingual interaction
 
 ---
 
 ## 🚀 Key Features
-- 🌱 Crop residue alternative recommendation system
-- 💰 Economic analysis & break-even estimation
-- 🧾 Sell crop residue module
-- 🧑‍🌾 Buyer discovery system
-- 🎙️ Voice assistant for farmers
-- 🌐 Multilingual translation support
-- 🌍 Soil health impact analysis
-- 🏛️ Government subsidy awareness
-- 🎥 Educational videos for guidance
-
----
-
-## 🧠 AI & Logic Used
-- AI-assisted economic modeling
-- Soil health impact assessment
-- Semi-structured decision logic
-- Voice-to-text interaction pipeline
-- Cached translations for performance
+- 🌱 Crop residue alternative recommendation system  
+- 💰 Economic and break-even analysis  
+- 🧾 Crop residue selling module  
+- 🧑‍🌾 Buyer discovery system  
+- 🎙️ Voice assistant  
+- 🌐 Multilingual translation support  
+- 🌍 Soil health impact analysis  
 
 ---
 
 ## 🛠️ Technology Stack
+
 | Layer | Technology |
 |------|-----------|
 | Frontend | Streamlit |
 | Backend | Python |
 | AI / Logic | Custom AI logic |
-| Data Handling | Pandas, NumPy |
+| Data Processing | Pandas, NumPy |
 | Voice | SpeechRecognition, gTTS |
 | Translation | Deep Translator |
 | Storage | JSON |
@@ -66,99 +56,65 @@ An intelligent decision-support platform that:
 ---
 
 ## 📂 Project Structure
-```
-
 hackthon/
-│
 ├── app.py
 ├── utils.py
 ├── farmer_data.json
 ├── translation_cache.json
-│
 ├── views/
-│   ├── home.py
-│   ├── sell.py
-│   ├── buyers.py
-│   ├── economic_analysis.py
-│   ├── soil_model.py
-│   ├── subsidies.py
-│   ├── chat.py
-│   └── voice_assistant.py
-│
-├── output/
-├── *.mp4
-├── .streamlit/config.toml
+│ ├── home.py
+│ ├── sell.py
+│ ├── buyers.py
+│ ├── economic_analysis.py
+│ ├── soil_model.py
+│ ├── subsidies.py
+│ └── voice_assistant.py
 └── README.md
 
-````
 
 ---
 
 ## ▶️ How to Run the Project
-
-### 1️⃣ Install Python
-Ensure Python 3.9 or above is installed.
-
-### 2️⃣ Install Dependencies
 ```bash
 pip install -r requirements.txt
-````
-
-### 3️⃣ Run the Application
-
-```bash
 streamlit run app.py
-```
+📊 Expected Output
 
----
+Alternative recommendations to stubble burning
 
-## 📊 Expected Output
+Farmer income improvement estimates
 
-* Recommended alternatives to burning
-* Estimated farmer income increase
-* Environmental impact reduction
-* Soil fertility improvement
-* Voice-guided interaction
+Pollution reduction and soil health insights
 
----
+Voice-guided user interaction
 
-## 🌍 Impact & Sustainability
+🌍 Impact & Sustainability
 
-* 🚫 Reduces stubble burning
-* 🌫️ Improves air quality
-* 💸 Increases farmer income
-* 🌱 Enhances soil health
-* ♻️ Promotes sustainable agriculture
+Reduction in stubble burning
 
----
+Improved air quality
 
-## 🏆 Ideal Use Cases
+Increased farmer income
 
-* Final-year engineering projects
-* Smart agriculture demonstrations
-* Government & NGO pilots
-* Climate-tech showcases
+Enhanced soil fertility
 
----
+Promotion of sustainable agriculture
 
-## 🔮 Future Enhancements
+🔮 Future Enhancements
 
-* Satellite-based stubble detection
-* Mobile application (Android/iOS)
-* Carbon credit calculation
-* Market price prediction using AI
-* Expanded regional language support
+Satellite-based stubble burning detection
 
----
+Mobile application (Android/iOS)
 
-## 👨‍💻 Developed By
-AgriIntellect Team
----
+Carbon credit calculation
 
-## 📜 License
+AI-based market price prediction
 
-This project is licensed under the **MIT License**.
+👨‍💻 Developed By
 
-```
+Om Hire
+AI | Machine Learning | Sustainable Agriculture Technology
 
----
+📜 License
+
+MIT License
