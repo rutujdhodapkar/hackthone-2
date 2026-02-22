@@ -1,0 +1,17 @@
+{
+    "crop": "Rice",
+    "field_size": 2.0,
+    "burned": "No",
+    "equipment": [
+        "Tractor"
+    ],
+    "location": "pune",
+    "ph": 6.5,
+    "ec": 0.5,
+    "oc": 0.5,
+    "moisture": 20.0,
+    "texture": "Loamy",
+    "N": 280.0,
+    "P": 20.0,
+    "K": 180.0
+}
