@@ -24,8 +24,7 @@ def show():
         utils.t("Soil Texture"),
         range(len(texture_options)),
         index=texture_options.index(data.get("texture", "Loamy")),
-        format_func=lambda x: translated_texture[x],
-        width="content"
+        format_func=lambda x: translated_texture[x]
     )
     texture = texture_options[texture_idx]
 
