@@ -1,17 +1,27 @@
 {
     "crop": "Rice",
-    "field_size": 2.0,
+    "field_size": 1.0,
     "burned": "No",
-    "equipment": [
-        "Tractor"
-    ],
+    "equipment": [],
     "location": "pune",
-    "ph": 6.5,
-    "ec": 0.5,
-    "oc": 0.5,
-    "moisture": 20.0,
-    "texture": "Loamy",
-    "N": 280.0,
-    "P": 20.0,
-    "K": 180.0
+    "analysis_results": {
+        "best_buyer": {
+            "name": "pune Buyer 4",
+            "price": 7860,
+            "income": 9432.0,
+            "residue": 1.2
+        },
+        "detected_scheme": null,
+        "subsidy_per_ton": 0,
+        "total_subsidy": 0.0,
+        "market_income": 2250.0,
+        "total_net_gain": 2250.0,
+        "best_strategy": "Biochar Production",
+        "strategy_reason": "Highest market value per ton through carbon-rich soil enhancement.",
+        "profit_comparison": {
+            "burning_loss": 6250.0,
+            "selling_profit": 8050.0
+        },
+        "ai_economic_advice": " Given the dry weather in Pune and the significant profit difference (\u20b98050 selling profit vs. \u20b96250 burning loss), the best option is to sell the rice straw to local biomass power plants or composting facilities.  Pune's proximity to industries and dry conditions make transportation feasible and profitable, maximizing residue value."
+    }
 }

@@ -97,6 +97,18 @@ def show():
     market_income = price_per_ton * residue_tons
     total_profit = market_income + total_subsidy
 
+    # PERSIST SUBSIDY DATA
+    if "analysis_results" not in farmer:
+        farmer["analysis_results"] = {}
+    farmer["analysis_results"].update({
+        "detected_scheme": detected_scheme,
+        "subsidy_per_ton": subsidy_per_ton,
+        "total_subsidy": total_subsidy,
+        "market_income": market_income,
+        "total_net_gain": total_profit
+    })
+    utils.save_json(farmer)
+
     st.subheader(utils.t("🏛️ Eligible State Schemes"))
 
     if subsidy_per_ton == 0:

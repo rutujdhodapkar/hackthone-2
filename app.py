@@ -13,27 +13,7 @@ import utils
 # ---------------- CONFIG ---------------- #
 st.set_page_config(page_title=utils.t("AI Crop Advisor"), page_icon="🌾", layout="wide")
 
-# ---------------- THEME INJECTION ---------------- #
-st.markdown("""
-    <style>
-    /* Only target the primary (selected) button */
-    button[data-testid="stBaseButton-primary"] {
-        background-color: #2E7D32 !important;
-        color: white !important;
-        border: none !important;
-    }
-    button[data-testid="stBaseButton-primary"]:hover {
-        background-color: #1B5E20 !important;
-        color: white !important;
-    }
-    .block-container {
-        padding-top: 2rem !important;
-        padding-bottom: 0rem !important;
-        padding-left: 5rem !important;
-        padding-right: 5rem !important;
-    }
-    </style>
-""", unsafe_allow_html=True)
+
 
 def ensure_session_state():
     if "page" not in st.session_state:
@@ -71,6 +51,28 @@ def main():
 
 
     st.sidebar.link_button(utils.t("Planty agent"), "https://leaf-agent.streamlit.app/", width="stretch")
+
+    st.sidebar.divider()
+    st.sidebar.subheader(utils.t("Report Center"))
+    if st.sidebar.button(utils.t("📄 Generate Full Report"), use_container_width=True):
+        import report_generator
+        import tempfile
+        
+        data = utils.load_json()
+        # Mock results removed. Logic now relies on persisted analysis results.
+            
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            report_path = report_generator.generate_pdf(data, tmp.name)
+            
+        with open(report_path, "rb") as f:
+            st.sidebar.download_button(
+                label=utils.t("⬇️ Download PDF"),
+                data=f,
+                file_name="Agri_Report.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+        os.unlink(report_path)
 
 
 

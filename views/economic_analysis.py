@@ -103,12 +103,46 @@ def show():
             best_net = annual_net
             best_option = name
 
-    # Best Method Highlight Display
-    if best_option:
-        st.success(f"🏆 **{utils.t('Recommended Strategy')}**: {utils.t(best_option)} — *{utils.t(options_data[best_option]['reason'])}*")
-
     # Professional Tabular View
     st.table(table_data)
+
+    st.divider()
+
+    # =========================================================
+    # BURNING VS SELLING COMPARISON (Moved up for schema fix)
+    # =========================================================
+    # Mock Weather/Temp impacts
+    current_temp = 32 
+    weather_condition = "Dry" 
+    
+    # Burning Costs
+    burning_fine = 2500 * area 
+    nutrient_loss = 1500 * total_yield 
+    total_burning_loss = burning_fine + nutrient_loss
+    
+    # Selling Profit
+    market_price = 4500 * total_yield 
+    labor_cost = 1200 * total_yield 
+    transport_dist = len(location) % 50 
+    transport_cost = transport_dist * 20 * total_yield
+    total_selling_profit = market_price - labor_cost - transport_cost
+
+    # Best Method Highlight Display (Persistence moved here)
+    if best_option:
+        st.success(f"🏆 **{utils.t('Recommended Strategy')}**: {utils.t(best_option)} — *{utils.t(options_data[best_option]['reason'])}*")
+        
+        # PERSIST STRATEGY
+        if "analysis_results" not in data:
+            data["analysis_results"] = {}
+        data["analysis_results"].update({
+            "best_strategy": best_option,
+            "strategy_reason": options_data[best_option]['reason'],
+            "profit_comparison": {
+                "burning_loss": total_burning_loss,
+                "selling_profit": total_selling_profit
+            }
+        })
+        utils.save_json(data)
 
     st.divider()
 
@@ -168,27 +202,9 @@ def show():
     st.divider()
 
     # =========================================================
-    # BURNING VS SELLING COMPARISON
+    # BURNING VS SELLING DISPLAY
     # =========================================================
     st.subheader(utils.t("🔥 Burning vs. 💰 Selling Profitability"))
-    
-    # Mock Weather/Temp impacts
-    # High temp/Dry weather increases fire risk and soil damage
-    current_temp = 32 # Mocked
-    weather_condition = "Dry" # Mocked
-    
-    # Burning Costs (Fines + Nutrient Loss + Health Impact)
-    burning_fine = 2500 * area # ₹2500 per acre fine
-    nutrient_loss = 1500 * total_yield # Estimated ₹1500/ton soil value loss
-    total_burning_loss = burning_fine + nutrient_loss
-    
-    # Selling Profit (Market Price - Labor - Transport)
-    market_price = 4500 * total_yield # Average price
-    labor_cost = 1200 * total_yield 
-    # Transport cost varies by location depth (mocked)
-    transport_dist = len(location) % 50 # Mocked distance
-    transport_cost = transport_dist * 20 * total_yield
-    total_selling_profit = market_price - labor_cost - transport_cost
     
     col_b, col_s = st.columns(2)
     
@@ -231,6 +247,11 @@ def show():
             advice = utils.ask_sarvam_ai(prompt, system_prompt="You are an agricultural economist specializing in crop residue monetization.")
             if advice:
                 st.info(utils.t(advice))
+                # PERSIST AI ADVICE
+                if "analysis_results" not in data:
+                    data["analysis_results"] = {}
+                data["analysis_results"]["ai_economic_advice"] = advice
+                utils.save_json(data)
             else:
                 st.warning(utils.t("AI advice currently unavailable."))
     except Exception as e:

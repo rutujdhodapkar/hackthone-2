@@ -60,6 +60,19 @@ def show():
         st.write(f"**{utils.t('Estimated Residue')}:** {residue_est:.2f} {utils.t('tons')}")
         st.write(f"**{utils.t('Estimated Income')}:** ₹{income:,.2f}")
 
+        # PERSIST BUYER DATA
+        if "analysis_results" not in farmer:
+            farmer["analysis_results"] = {}
+        farmer["analysis_results"].update({
+            "best_buyer": {
+                "name": str(best[utils.t("Buyer Name")]),
+                "price": int(best[utils.t("Price per ton (₹)")]),
+                "income": float(income),
+                "residue": float(residue_est)
+            }
+        })
+        utils.save_json(farmer)
+
         if st.button(utils.t("✅ Connect Buyer")):
             st.success(utils.t("Buyer contact shared successfully!"))
 

@@ -126,6 +126,16 @@ Return ONLY JSON:
 
                 st.warning(utils.t(result["warning"]))
                 st.success(f"{utils.t('🌾 Expected Result')}: {utils.t(result['expected_result'])}")
+                
+                # PERSIST RESULTS FOR REPORT
+                if "analysis_results" not in data:
+                    data["analysis_results"] = {}
+                data["analysis_results"].update({
+                    "soil_issues": issues,
+                    "soil_treatments": list(set(chemicals)),
+                    "ai_soil_advice": result
+                })
+                utils.save_json(data)
             else:
                 st.error(utils.t("AI unavailable."))
         except Exception:
