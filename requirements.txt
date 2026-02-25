@@ -4,3 +4,5 @@ requests
 geopy
 streamlit-js-eval
 sarvamai
+report_generator
+fpdf
